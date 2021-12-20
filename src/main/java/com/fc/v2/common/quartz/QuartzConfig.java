@@ -21,7 +21,7 @@ public class QuartzConfig {
      * @return
      * @throws SchedulerException
      */
-    @Bean
+	/* @Bean */
     public Scheduler scheduler() throws SchedulerException{
         SchedulerFactory schedulerFactoryBean = new StdSchedulerFactory();
         return schedulerFactoryBean.getScheduler();
