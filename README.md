@@ -6,7 +6,7 @@ master为最新皮肤
 
 ### 前言
 - SpringBoot_v2项目是努力打造springboot框架的极致细腻的脚手架。包括一套漂亮的前台。无其他杂七杂八的功能，原生纯净。
-- 服务器演示：http://47.99.218.99:8080/springboot_v2/ 账号:admin 密码:admin
+- 服务器演示：http://124.70.187.180:8080/springboot_v2/ 账号:admin 密码:admin
 老版本v2分支为[20210101v2](https://gitee.com/bdj/SpringBoot_v2/tree/20210101v2/)
 目前mater为新皮肤
 
