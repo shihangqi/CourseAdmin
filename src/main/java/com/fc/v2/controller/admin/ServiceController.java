@@ -43,7 +43,6 @@ public class ServiceController extends BaseController{
     public String view(ModelMap model)
     {
     	List<SysNotice> sysNotices= sysNoticeService.getNEW();
-    	List<TsysOperLog> sysOperLog=sysOperLogService.getNEW();
     	if(sysNotices==null||sysNotices.size()<=0){
     		SysNotice sysNotice=new SysNotice();
     		sysNotice.setId("0");
@@ -55,7 +54,6 @@ public class ServiceController extends BaseController{
 
 		model.addAttribute("service", new Service());
 		model.addAttribute("sysNotices", sysNotices);
-		model.addAttribute("sysOperLog", sysOperLog);
         return prefix + "/list";
     }
 }

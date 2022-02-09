@@ -36,9 +36,6 @@ public class BaseController
 	@Autowired
 	public SysPermissionService sysPermissionService;
 
-	//日志操作
-	@Autowired
-	public SysOperLogService sysOperLogService;
 	//公告
 	@Autowired
 	public SysNoticeService sysNoticeService;

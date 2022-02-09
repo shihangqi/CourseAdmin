@@ -9,7 +9,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import com.fc.v2.common.base.BaseController;
 import com.fc.v2.common.domain.AjaxResult;
-import com.fc.v2.common.log.Log;
 import com.fc.v2.model.auto.SysDepartment;
 import com.fc.v2.model.auto.SysDepartmentExample;
 import com.fc.v2.model.auto.SysPosition;
@@ -110,7 +109,6 @@ public class UserController extends BaseController{
 	 * @author fuce
 	 * @Date 2019年11月11日 下午4:14:57
 	 */
-    @Log(title = "用户新增", action = "111")
     @ApiOperation(value = "新增", notes = "新增")
 	@PostMapping("/add")
 	@RequiresPermissions("system:user:add")
