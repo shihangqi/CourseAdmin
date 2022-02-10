@@ -187,11 +187,6 @@
 		    <artifactId>mail</artifactId>
 		    <version>1.4.7</version>
 		</dependency>
-		<!--quartz依赖-->
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-		</dependency>
 		<!--
 			验证码
 			https://gitee.com/whvse/EasyCaptcha?_from=gitee_search

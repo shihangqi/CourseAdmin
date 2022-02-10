@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.v2.mapper.auto.SelectionMapper">
+  <resultMap id="BaseResultMap" type="com.fc.v2.model.auto.Selection">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="student_id" jdbcType="BIGINT" property="studentId" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="grade" jdbcType="INTEGER" property="grade" />
+    <result column="week" jdbcType="INTEGER" property="week" />
+    <result column="deleted" jdbcType="TINYINT" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+  
+	  	  	      	id,
+       	  	      	student_id,
+       	  	      	course_id,
+       	  	      	grade,
+       	  	      	week,
+       	  	      	deleted,
+       	  	      	create_time,
+       	  	    	  	update_time
+       	  	
+  </sql>
+  
+  <select id="selectByExample" parameterType="com.fc.v2.model.auto.SelectionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from selection
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from selection
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from selection
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fc.v2.model.auto.SelectionExample">
+    delete from selection
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.fc.v2.model.auto.Selection">
+    insert into selection (
+      	  	       id,
+       	  	       student_id,
+       	  	       course_id,
+       	  	       grade,
+       	  	       week,
+       	  	       deleted,
+       	  	       create_time,
+       	  	    	  update_time
+       	    )
+    values (
+	  	  	      	#{id,jdbcType=BIGINT},
+       	  	      	#{studentId,jdbcType=BIGINT},
+       	  	      	#{courseId,jdbcType=BIGINT},
+       	  	      	#{grade,jdbcType=INTEGER},
+       	  	      	#{week,jdbcType=INTEGER},
+       	  	      	#{deleted,jdbcType=TINYINT},
+       	  	      	#{createTime,jdbcType=TIMESTAMP},
+       	  	    	  #{updateTime,jdbcType=TIMESTAMP}
+       	    )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fc.v2.model.auto.Selection">
+    insert into selection
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+          
+      <if test="id != null">
+        id,
+      </if>
+         
+      <if test="studentId != null">
+        student_id,
+      </if>
+         
+      <if test="courseId != null">
+        course_id,
+      </if>
+         
+      <if test="grade != null">
+        grade,
+      </if>
+         
+      <if test="week != null">
+        week,
+      </if>
+         
+      <if test="deleted != null">
+        deleted,
+      </if>
+         
+      <if test="createTime != null">
+        create_time,
+      </if>
+         
+      <if test="updateTime != null">
+        update_time,
+      </if>
+         </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+          <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+          <if test="studentId != null">
+        #{studentId,jdbcType=BIGINT},
+      </if>
+          <if test="courseId != null">
+        #{courseId,jdbcType=BIGINT},
+      </if>
+          <if test="grade != null">
+        #{grade,jdbcType=INTEGER},
+      </if>
+          <if test="week != null">
+        #{week,jdbcType=INTEGER},
+      </if>
+          <if test="deleted != null">
+        #{deleted,jdbcType=TINYINT},
+      </if>
+          <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+          <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+        </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.fc.v2.model.auto.SelectionExample" resultType="java.lang.Long">
+    select count(*) from selection
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <update id="updateByExampleSelective" parameterType="map">
+    update selection
+    <set>
+          <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+          <if test="record.studentId != null">
+        student_id = #{record.studentId,jdbcType=BIGINT},
+      </if>
+          <if test="record.courseId != null">
+        course_id = #{record.courseId,jdbcType=BIGINT},
+      </if>
+          <if test="record.grade != null">
+        grade = #{record.grade,jdbcType=INTEGER},
+      </if>
+          <if test="record.week != null">
+        week = #{record.week,jdbcType=INTEGER},
+      </if>
+          <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=TINYINT},
+      </if>
+          <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+          <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+         
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByExample" parameterType="map">
+    update selection
+    set
+            	     	 
+    	 id = #{record.id,jdbcType=BIGINT},
+    	         	     	 
+    	 student_id = #{record.studentId,jdbcType=BIGINT},
+    	         	     	 
+    	 course_id = #{record.courseId,jdbcType=BIGINT},
+    	         	     	 
+    	 grade = #{record.grade,jdbcType=INTEGER},
+    	         	     	 
+    	 week = #{record.week,jdbcType=INTEGER},
+    	         	     	 
+    	 deleted = #{record.deleted,jdbcType=TINYINT},
+    	         	     	 
+    	 create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    	         	     	 
+    	 update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    	         
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+      <update id="updateByPrimaryKeySelective" parameterType="com.fc.v2.model.auto.Selection">
+    update selection
+    <set>
+                          
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+                      
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=BIGINT},
+      </if>
+                      
+      <if test="grade != null">
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+                      
+      <if test="week != null">
+        week = #{week,jdbcType=INTEGER},
+      </if>
+                      
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=TINYINT},
+      </if>
+                      
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+                      
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+              </set>
+    
+    where 
+            
+    id = #{id,jdbcType=BIGINT}
+                                                                  
+  </update>
+
+      	      	   	      	   	      	   	      	   	      	   	      	   	      	   	      	
+
+  <update id="updateByPrimaryKey" parameterType="com.fc.v2.model.auto.Selection">
+    update selection
+    set 
+    		 		 	  	  
+		student_id = #{studentId,jdbcType=BIGINT},
+	  	 		 	  	  
+		course_id = #{courseId,jdbcType=BIGINT},
+	  	 		 	  	  
+		grade = #{grade,jdbcType=INTEGER},
+	  	 		 	  	  
+		week = #{week,jdbcType=INTEGER},
+	  	 		 	  	  
+		deleted = #{deleted,jdbcType=TINYINT},
+	  	 		 	  	  
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+	  	 		 	  		
+		update_time = #{updateTime,jdbcType=TIMESTAMP}
+	  	 		
+    where 
+            
+    id = #{id,jdbcType=BIGINT}
+                                                                    
+  </update>
+  
+                                            
+</mapper>

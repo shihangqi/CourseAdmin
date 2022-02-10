@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('新增')"/>
+</head>
+<body>
+<form class="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+											
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">学生id</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="studentId" autocomplete="off" placeholder="学生id" class="layui-input">
+			                    </div>
+			                </div>
+									
+											
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">课程id</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="courseId" autocomplete="off" placeholder="课程id" class="layui-input">
+			                    </div>
+			                </div>
+									
+											
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">所属年级</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="grade" autocomplete="off" placeholder="所属年级" class="layui-input">
+			                    </div>
+			                </div>
+									
+											
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">所属星期</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="week" autocomplete="off" placeholder="所属星期" class="layui-input">
+			                    </div>
+			                </div>
+									
+											
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">删除标记</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="deleted" autocomplete="off" placeholder="删除标记" class="layui-input">
+			                    </div>
+			                </div>
+									
+											
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">创建时间</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="createTime" autocomplete="off" placeholder="创建时间" class="layui-input">
+			                    </div>
+			                </div>
+									
+											
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">更新时间</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="updateTime" autocomplete="off" placeholder="更新时间" class="layui-input">
+			                    </div>
+			                </div>
+									
+		
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="selection-save">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['form','laydate','jquery'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let MODULE_PATH = rootPath+"/SelectionController";
+
+
+        //保存
+        form.on('submit(selection-save)', function (data) {
+        	let loader = layer.load();
+            $.ajax({
+                url: MODULE_PATH+'/add',
+                data: data.field,
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                type: 'post',
+                success: function (result) {
+                    if (result.code==200) {
+                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+                            parent.layui.table.reload("selection-table");
+                            layer.close(loader);
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        layer.close(loader);
+                    }
+                }
+            })
+            return false;
+        });
+    })
+</script>
+</body>
+</html>
