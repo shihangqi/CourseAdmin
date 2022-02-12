@@ -44,7 +44,10 @@
 							<div class="layui-form-item">
 			                    <label class="layui-form-label">删除标记</label>
 			                    <div class="layui-input-block">
-			                        <input type="text" name="deleted" autocomplete="off" placeholder="删除标记" class="layui-input">
+			                        <select  name="deleted">
+			                    		<option value="-1">否</option>
+			                    		<option value="1">是</option>
+			                    	</select>
 			                    </div>
 			                </div>
 									
@@ -52,7 +55,7 @@
 							<div class="layui-form-item">
 			                    <label class="layui-form-label">创建时间</label>
 			                    <div class="layui-input-block">
-			                        <input type="text" name="createTime" autocomplete="off" placeholder="创建时间" class="layui-input">
+			                        <input type="text" name="createTime" autocomplete="off" placeholder="创建时间" class="layui-input datetime-input">
 			                    </div>
 			                </div>
 									
@@ -60,7 +63,7 @@
 							<div class="layui-form-item">
 			                    <label class="layui-form-label">更新时间</label>
 			                    <div class="layui-input-block">
-			                        <input type="text" name="updateTime" autocomplete="off" placeholder="更新时间" class="layui-input">
+			                        <input type="text" name="updateTime" autocomplete="off" placeholder="更新时间" class="layui-input datetime-input">
 			                    </div>
 			                </div>
 									
@@ -87,6 +90,15 @@
         let form = layui.form;
         let $ = layui.jquery;
         let MODULE_PATH = rootPath+"/SelectionController";
+		var laydate = layui.laydate;
+        //同时绑定多个
+        lay('.datetime-input').each(function(){
+          laydate.render({
+            elem: this
+            ,trigger: 'click'
+            ,type: 'datetime'
+          });
+        });
 
 
         //保存

@@ -51,7 +51,29 @@
 </script>
 
 
-																																									
+																			
+<script type="text/html" id="imgUrl-img">
+	 {{#if (d.imgUrl != null && d.imgUrl != '') { }}
+		<a onclick='view("{{d.imgUrl}}")'>
+			{{d.imgUrl}}
+			<i class="layui-icon layui-icon-template" lay-filter="imgUrl-view"></i>
+    	</a>
+	 {{# } else { }}
+		-
+	 {{# } }}
+</script>
+																	
+<script type="text/html" id="descriptionImg-img">
+	 {{#if (d.descriptionImg != null && d.descriptionImg != '') { }}
+		<a onclick='view("{{d.descriptionImg}}")'>
+			{{d.descriptionImg}}
+			<i class="layui-icon layui-icon-template" lay-filter="descriptionImg-view"></i>
+    	</a>
+	 {{# } else { }}
+		-
+	 {{# } }}
+</script>
+															
 
 <script type="text/javascript" th:inline="javascript">
 	
@@ -102,20 +124,20 @@
     	                	
                {title: '所属星期', field: 'week', align: 'center'},
     	                	
-               {title: '简介图片', field: 'imgUrl', align: 'center'},
+               {title: '简介图片', field: 'imgUrl', align: 'center',templet: '#imgUrl-img'},
     	                	
                {title: '课程简介', field: 'introduction', align: 'center'},
     	                	
                {title: '课程详情', field: 'description', align: 'center'},
     	                	
-               {title: '课程详情中的图片', field: 'descriptionImg', align: 'center'},
+               {title: '课程详情中的图片', field: 'descriptionImg', align: 'center',templet: '#descriptionImg-img'},
     	                	
                {title: '授课教师', field: 'teacherId', align: 'center'},
-    	                	
+    	                		
                {title: '创建时间', field: 'createTime', align: 'center'},
-    	                	
+		                		
                {title: '更新时间', field: 'updateTime', align: 'center'},
-                    
+	                
                {title: '操作', toolbar: '#course-bar', align: 'center'}
             ]
         ]
@@ -239,6 +261,16 @@
         }
         
         
+		 //查看
+        window.view = function (obj) {
+            layer.open({
+                type: 1,
+                title: '查看',
+                shade: 0.1,
+                area: ['500px', '500px'],
+                content: "<img style=\"width:500px\" src=\""+obj+"\">"
+            });
+        }
         //刷新按钮
         window.refresh = function () {
             table.reload('course-table');

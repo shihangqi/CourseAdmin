@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
  *  CourseMapper
  * @author shihangqi_自动生成
  * @email ${email}
- * @date 2022-02-09 23:11:30
+ * @date 2022-02-12 18:45:49
  */
 public interface CourseMapper {
       	   	      	      	      	      	      	      	      	      	      	      	      

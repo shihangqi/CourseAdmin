@@ -46,8 +46,6 @@ public class AdminController extends BaseController {
 	public String index(HttpServletRequest request) {
 		request.getSession().setAttribute("sessionUserName", ShiroUtils.getUser().getNickname());
 		// 获取公告信息
-		List<SysNotice> notices = sysNoticeService.getuserNoticeNotRead(ShiroUtils.getUser(), 0);
-		request.getSession().setAttribute("notices", notices);
 		return prefix + "/index";
 	}
 

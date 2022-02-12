@@ -51,9 +51,22 @@
 </script>
 
 
-																													
+																				
+<script type="text/html" id="deleted-type">
+	
+
+	{{#if (d.deleted == 0) { }}
+    <span class="layui-badge layui-bg-default-blue">正常</span>
+
+	{{#if (d.deleted == 1) { }}
+    <span class="layui-badge layui-bg-default-blue">删除</span>
+    {{# } }}
+</script>
+											
 
 <script type="text/javascript" th:inline="javascript">
+	var deleted_list = [[${@dict.getType('deleted')}]];
+	
 	
 	window.selectDictLabel=function(datas, value) {
 		var actions = [];
@@ -104,12 +117,14 @@
     	                	
                {title: '所属星期', field: 'week', align: 'center'},
     	                	
-               {title: '删除标记', field: 'deleted', align: 'center'},
-    	                	
+        	   {title: '删除标记', field: 'deleted', align: 'center',templet:function(d){
+				  return selectDictLabel(deleted_list, d.deleted);
+			   }},
+    	                		
                {title: '创建时间', field: 'createTime', align: 'center'},
-    	                	
+		                		
                {title: '更新时间', field: 'updateTime', align: 'center'},
-                    
+	                
                {title: '操作', toolbar: '#selection-bar', align: 'center'}
             ]
         ]

@@ -14,12 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import com.fc.v2.common.conf.oss.OssConfig;
 
 /**
  * Controller
  * @ClassName: CourseController
  * @author shihangqi
- * @date 2022-02-09 23:11:30
+ * @date 2022-02-12 18:45:49
  */
 @Api(value = "")
 @Controller
@@ -41,6 +42,7 @@ public class CourseController extends BaseController{
 	@ApiOperation(value = "分页跳转", notes = "分页跳转")
 	@GetMapping("/view")
 	@RequiresPermissions("gen:course:view")
+    @OssConfig
     public String view(ModelMap model)
     {
         return prefix + "/list";
@@ -67,6 +69,7 @@ public class CourseController extends BaseController{
      */
 	@ApiOperation(value = "新增跳转", notes = "新增跳转")
     @GetMapping("/add")
+    @OssConfig
     public String add(ModelMap modelMap)
     {
         return prefix + "/add";
@@ -119,6 +122,7 @@ public class CourseController extends BaseController{
 	 */
 	@ApiOperation(value = "修改跳转", notes = "修改跳转")
 	@GetMapping("/edit/{id}")
+    @OssConfig
     public String edit(@PathVariable("id") String id, ModelMap map)
     {
         map.put("Course", courseService.selectByPrimaryKey(id));

@@ -36,9 +36,6 @@ public class BaseController
 	@Autowired
 	public SysPermissionService sysPermissionService;
 
-	//公告
-	@Autowired
-	public SysNoticeService sysNoticeService;
 
     /**
      * 文件上传

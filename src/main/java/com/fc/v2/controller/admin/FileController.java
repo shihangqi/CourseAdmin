@@ -42,7 +42,7 @@ public class FileController extends BaseController{
 	@RequiresPermissions("system:file:view")
     public String view(ModelMap model)
     {
-    	model.put("bucketURL",template.getOssProperties().getEndpoint()+"/"+template.getOssProperties().getBucketName());
+    	model.put("bucketURL",template.getOssProperties().getCndUrl());
         return prefix + "/list";
     }
 	

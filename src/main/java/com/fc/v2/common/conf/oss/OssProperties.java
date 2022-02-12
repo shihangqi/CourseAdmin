@@ -54,6 +54,11 @@ public class OssProperties {
 	private String bucketName = "v2";
 
 	/**
+	 * 默认的存储桶名称
+	 */
+	private String cndUrl;
+
+	/**
 	 * 最大线程数，默认： 100
 	 */
 	private Integer maxConnections = 100;
@@ -131,4 +136,11 @@ public class OssProperties {
 		this.maxConnections = maxConnections;
 	}
 
+	public String getCndUrl() {
+		return cndUrl;
+	}
+
+	public void setCndUrl(String cndUrl) {
+		this.cndUrl = cndUrl;
+	}
 }

@@ -48,37 +48,37 @@
 						<div class="layui-form-item">
 		                    <label class="layui-form-label">开始填写时间</label>
 		                    <div class="layui-input-block">
-		                        <input th:value="*{beginTime}" type="text" name="beginTime" autocomplete="off" placeholder="开始填写时间" class="layui-input">
+		                        <input type="text" th:value="${GradeConfig.dateToStringConvert(GradeConfig.beginTime)}" name="beginTime" autocomplete="off" placeholder="开始填写时间" class="layui-input datetime-input">
+		                        
 		                    </div>
 		                </div>
-					                
 											
 										
 						<div class="layui-form-item">
 		                    <label class="layui-form-label">结束填写时间</label>
 		                    <div class="layui-input-block">
-		                        <input th:value="*{endTime}" type="text" name="endTime" autocomplete="off" placeholder="结束填写时间" class="layui-input">
+		                        <input type="text" th:value="${GradeConfig.dateToStringConvert(GradeConfig.endTime)}" name="endTime" autocomplete="off" placeholder="结束填写时间" class="layui-input datetime-input">
+		                        
 		                    </div>
 		                </div>
-					                
 											
 										
 						<div class="layui-form-item">
 		                    <label class="layui-form-label">创建时间</label>
 		                    <div class="layui-input-block">
-		                        <input th:value="*{createTime}" type="text" name="createTime" autocomplete="off" placeholder="创建时间" class="layui-input">
+		                        <input type="text" th:value="${GradeConfig.dateToStringConvert(GradeConfig.createTime)}" name="createTime" autocomplete="off" placeholder="创建时间" class="layui-input datetime-input">
+		                        
 		                    </div>
 		                </div>
-					                
 											
 										
 						<div class="layui-form-item">
 		                    <label class="layui-form-label">更新时间</label>
 		                    <div class="layui-input-block">
-		                        <input th:value="*{updateTime}" type="text" name="updateTime" autocomplete="off" placeholder="更新时间" class="layui-input">
+		                        <input type="text" th:value="${GradeConfig.dateToStringConvert(GradeConfig.updateTime)}" name="updateTime" autocomplete="off" placeholder="更新时间" class="layui-input datetime-input">
+		                        
 		                    </div>
 		                </div>
-					                
 							
             </div>
         </div>
@@ -103,7 +103,16 @@
         let form = layui.form;
         let $ = layui.jquery;
         let MODULE_PATH = rootPath+"/GradeConfigController";
-		
+				var laydate = layui.laydate;
+        //同时绑定多个
+        lay('.datetime-input').each(function(){
+          laydate.render({
+            elem: this
+            ,trigger: 'click'
+            ,type: 'datetime'
+          });
+        });
+
 
         form.on('submit(gradeConfig-update)', function (data) {
         	let loader = layer.load();

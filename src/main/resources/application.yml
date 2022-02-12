@@ -104,7 +104,8 @@ oss:
   enable: true
   info: true
   path-style-access: false  #使用云OSS 需要关闭
-  endpoint: http://127.0.0.1:9000 #对应上图 ③ 处配置
-  access-key: minioadmin  # 上文创建的AK
-  secret-key: minioadmin # 上文创建的SK
-  bucket-name: v2-cloud  # 上文创建的桶名称
+  endpoint: https://s3-cn-north-1.qiniucs.com #对应上图 ③ 处配置
+  access-key: giihZhkbf5ujq3kcLsyOJ2-5DowFYOW6CEZhyty3  # 上文创建的AK
+  secret-key: HiSgk5FWWOe0e5atMB3QqOdJyfY7UDAc7iql6DZm # 上文创建的SK
+  bucket-name: shq-common  # 上文创建的桶名称
+  cnd-url: http://cdn.rdfzyzxcxx.top/

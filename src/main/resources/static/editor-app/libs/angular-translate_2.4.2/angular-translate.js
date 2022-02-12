@@ -433,7 +433,7 @@ angular.module('pascalprecht.translate').provider('$translate', [
             deferred.resolve($translationTable[langKey]);
           } else if (langPromises[langKey]) {
             langPromises[langKey].then(function (data) {
-              translations(data.key, data.table);
+              translations(data, data.table);
               deferred.resolve(data.table);
             }, deferred.reject);
           } else {
@@ -671,10 +671,10 @@ angular.module('pascalprecht.translate').provider('$translate', [
             }
             $q.all(tables).then(function (tableData) {
               angular.forEach(tableData, function (data) {
-                if ($translationTable[data.key]) {
-                  delete $translationTable[data.key];
+                if ($translationTable[data]) {
+                  delete $translationTable[data];
                 }
-                translations(data.key, data.table);
+                translations(data, data.table);
               });
               if ($uses) {
                 useLanguage($uses);
@@ -683,7 +683,7 @@ angular.module('pascalprecht.translate').provider('$translate', [
             });
           } else if ($translationTable[langKey]) {
             loadAsync(langKey).then(function (data) {
-              translations(data.key, data.table);
+              translations(data, data.table);
               if (langKey === $uses) {
                 useLanguage($uses);
               }

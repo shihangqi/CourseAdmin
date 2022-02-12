@@ -131,7 +131,6 @@
         let form = layui.form;
         let $ = layui.jquery;
 		#if($isupload==true)
-		 let BUCKETURL_PATH='[[${bucketURL}]]';
 		#end	
 		
         let MODULE_PATH = rootPath+"/${tableInfo.javaTableName}Controller/";
@@ -290,7 +289,7 @@
                 title: '查看',
                 shade: 0.1,
                 area: ['500px', '500px'],
-                content: "<img style=\"width:500px\" src=\""+BUCKETURL_PATH+"/"+obj+"\">"
+                content: "<img style=\"width:500px\" src=\""+obj+"\">"
             });
         }
 #end   

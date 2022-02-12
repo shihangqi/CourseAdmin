@@ -146,11 +146,13 @@
         }
         //查看
         window.view = function (obj) {
+            console.log( BUCKETURL_PATH+"/"+obj.data['fileName']);
             layer.open({
                 type: 2,
                 title: '查看',
                 shade: 0.1,
                 area: ['500px', '500px'],
+
                 content: BUCKETURL_PATH+"/"+obj.data['fileName']
             });
         }

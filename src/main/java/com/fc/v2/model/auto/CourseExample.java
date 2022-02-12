@@ -8,7 +8,7 @@ import cn.hutool.core.util.StrUtil;
 /**
  *  CourseExample
  * @author shihangqi_自动生成
- * @date 2022-02-09 23:11:30
+ * @date 2022-02-12 18:45:49
  */
 public class CourseExample {
 

@@ -33,18 +33,32 @@
 			                </div>
 									
 											
-							<div class="layui-form-item">
+			              	<div class="layui-form-item layui-hide">
 			                    <label class="layui-form-label">生活照url</label>
 			                    <div class="layui-input-block">
-			                        <input type="text" name="imgUrl" autocomplete="off" placeholder="生活照url" class="layui-input">
+			                        <input type="text" name="imgUrl" id="imgUrl" autocomplete="off" placeholder="生活照url" class="layui-input">
 			                    </div>
 			                </div>
+			                
+			                <div class="layui-form-item">
+			                    <label class="layui-form-label">生活照url</label>
+			                    <div class="layui-input-block">
+			                        <div class="layui-upload-drag" id="imgUrl_ImgUpload">
+			                          <i class="layui-icon"></i>
+			                          <p>点击上传，或将文件拖拽到此处</p>
+			                          <div class="layui-hide" id="imgUrl_ImgUpload_View">
+			                            <hr>
+			                            <img src="" alt="上传成功后渲染" style="max-width: 196px">
+			                          </div>
+			                        </div>
+			                    </div>
+			                </div>     
 									
 											
 							<div class="layui-form-item">
 			                    <label class="layui-form-label">创建时间</label>
 			                    <div class="layui-input-block">
-			                        <input type="text" name="createTime" autocomplete="off" placeholder="创建时间" class="layui-input">
+			                        <input type="text" name="createTime" autocomplete="off" placeholder="创建时间" class="layui-input datetime-input">
 			                    </div>
 			                </div>
 									
@@ -52,7 +66,7 @@
 							<div class="layui-form-item">
 			                    <label class="layui-form-label">更新时间</label>
 			                    <div class="layui-input-block">
-			                        <input type="text" name="updateTime" autocomplete="off" placeholder="更新时间" class="layui-input">
+			                        <input type="text" name="updateTime" autocomplete="off" placeholder="更新时间" class="layui-input datetime-input">
 			                    </div>
 			                </div>
 									
@@ -75,12 +89,46 @@
 </form>
 <th:block th:include="include :: footer"/>
 <script>
-    layui.use(['form','laydate','jquery'], function () {
+    layui.use(['form','laydate','upload','jquery'], function () {
         let form = layui.form;
         let $ = layui.jquery;
         let MODULE_PATH = rootPath+"/TeacherController";
 
+		let FILE_PATH = rootPath+"/oss";
+        let upload = layui.upload;
+        let BucketName='[[${BucketName}]]';
+		var laydate = layui.laydate;
+        //同时绑定多个
+        lay('.datetime-input').each(function(){
+          laydate.render({
+            elem: this
+            ,trigger: 'click'
+            ,type: 'datetime'
+          });
+        });
 
+																												
+				//拖拽上传 文档：https://www.layui.com/doc/modules/upload.html
+				upload.render({
+					elem: '#imgUrl_ImgUpload'
+					,url: FILE_PATH+"/object/"+BucketName //改成您自己的上传接口
+					,field: 'object' //设定文件域的字段名
+					,done: function(result){
+						console.log(result);
+						if (result.code==200) {
+							layer.msg('上传成功');
+							layui.$('#imgUrl_ImgUpload_View').removeClass('layui-hide').find('img').attr('src', result.data);
+							if(result.data!=null){
+								$("#imgUrl").val(result.data);
+							}
+						} else {
+							layer.msg(result.msg, {icon: 2, time: 1000});
+						}
+					}
+				});
+
+
+																			
         //保存
         form.on('submit(teacher-save)', function (data) {
         	let loader = layer.load();

@@ -43,7 +43,7 @@
             ,done: function(result){
                if (result.code==200) {
                     layer.msg('上传成功');
-                    layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', result.data.objectContent.httpRequest.uri);
+                    layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', result.data);
                     parent.layui.table.reload("sysFile-table");
                } else {
                     layer.msg(result.msg, {icon: 2, time: 1000});

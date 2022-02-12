@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
  *  GradeConfigMapper
  * @author shihangqi_自动生成
  * @email ${email}
- * @date 2022-02-09 23:12:18
+ * @date 2022-02-12 18:44:39
  */
 public interface GradeConfigMapper {
       	   	      	      	      	      	      	      	      	      

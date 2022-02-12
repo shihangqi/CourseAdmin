@@ -28,7 +28,7 @@ public class OssAspect {
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
     	
     	HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-    	request.setAttribute("bucketURL",template.getOssProperties().getEndpoint()+"/"+template.getOssProperties().getBucketName());
+    	request.setAttribute("bucketURL",template.getOssProperties().getCndUrl());
     	request.setAttribute("BucketName",template.getOssProperties().getBucketName());
     	return joinPoint.proceed();
     }

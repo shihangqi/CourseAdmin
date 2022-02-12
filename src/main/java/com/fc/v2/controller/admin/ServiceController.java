@@ -42,18 +42,7 @@ public class ServiceController extends BaseController{
 	@RequiresPermissions("system:service:view")
     public String view(ModelMap model)
     {
-    	List<SysNotice> sysNotices= sysNoticeService.getNEW();
-    	if(sysNotices==null||sysNotices.size()<=0){
-    		SysNotice sysNotice=new SysNotice();
-    		sysNotice.setId("0");
-    		sysNotice.setTitle("暂无公告");
-    		sysNotice.setCreateTime(new Date());
-    		sysNotices.add(sysNotice);
-		}
-
-
 		model.addAttribute("service", new Service());
-		model.addAttribute("sysNotices", sysNotices);
         return prefix + "/list";
     }
 }

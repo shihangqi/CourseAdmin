@@ -22,7 +22,7 @@ import com.fc.v2.util.StringUtils;
  * @Package com.fc.v2.service 
  * @author shihangqi_自动生成
  * @email ${email}
- * @date 2022-02-09 23:12:18  
+ * @date 2022-02-12 18:44:39  
  **/
 @Service
 public class GradeConfigService implements BaseService<GradeConfig, GradeConfigExample>{

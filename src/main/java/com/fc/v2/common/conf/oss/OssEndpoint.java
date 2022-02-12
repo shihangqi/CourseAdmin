@@ -12,6 +12,7 @@ import com.fc.v2.service.SysFileService;
 import com.fc.v2.shiro.util.ShiroUtils;
 import com.fc.v2.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,7 +39,6 @@ public class OssEndpoint {
 	public OssEndpoint(OssTemplate ossTemplate) {
 		this.template=ossTemplate;
 	}
-
 
 	/**
 	 * 创建桶
@@ -107,7 +107,7 @@ public class OssEndpoint {
 			}
 			int i=sysFileService.insertSelective(sysFile);
 			if(i>0){
-				return AjaxResult.successData(200,template.getObjectInfo(bucketName,  fileSuffixName));
+				return AjaxResult.successData(200,template.getOssProperties().getCndUrl()+bucketName);
 			}
 		}
 		return AjaxResult.error("上传失败");
@@ -208,7 +208,7 @@ public class OssEndpoint {
 				oldSysFile.setFileSuffix(object.getContentType());
 				int i=sysFileService.updateByPrimaryKeySelective(oldSysFile);
 				if(i>0){
-					return AjaxResult.successData(200,template.getObjectInfo(bucketName,  fileSuffixName));
+					return AjaxResult.successData(200,template.getOssProperties().getCndUrl()+bucketName);
 				}
 			}
 		}
@@ -244,7 +244,7 @@ public class OssEndpoint {
 				retmap.put("code",0);
 				retmap.put("msg","上传成功!");
 				String bucketURL=template.getOssProperties().getEndpoint()+"/"+template.getOssProperties().getBucketName()+"/";
-				retdatamap.put("src",bucketURL+template.getObjectInfo(bucketName,  fileSuffixName).getKey());
+				retdatamap.put("src",template.getOssProperties().getCndUrl()+bucketName);
 				retmap.put("data",retdatamap);
 				return retmap;
 			}

@@ -51,7 +51,18 @@
 </script>
 
 
-																									
+																			
+<script type="text/html" id="imgUrl-img">
+	 {{#if (d.imgUrl != null && d.imgUrl != '') { }}
+		<a onclick='view("{{d.imgUrl}}")'>
+			{{d.imgUrl}}
+			<i class="layui-icon layui-icon-template" lay-filter="imgUrl-view"></i>
+    	</a>
+	 {{# } else { }}
+		-
+	 {{# } }}
+</script>
+											
 
 <script type="text/javascript" th:inline="javascript">
 	
@@ -88,7 +99,8 @@
         let table = layui.table;
         let form = layui.form;
         let $ = layui.jquery;
-				
+        let BUCKETURL_PATH='';
+
         let MODULE_PATH = rootPath+"/TeacherController/";
         let cols = [
             [
@@ -102,12 +114,12 @@
     	                	
                {title: '简介', field: 'description', align: 'center'},
     	                	
-               {title: '生活照url', field: 'imgUrl', align: 'center'},
-    	                	
+               {title: '生活照url', field: 'imgUrl', align: 'center',templet: '#imgUrl-img'},
+    	                		
                {title: '创建时间', field: 'createTime', align: 'center'},
-    	                	
+		                		
                {title: '更新时间', field: 'updateTime', align: 'center'},
-                    
+	                
                {title: '操作', toolbar: '#teacher-bar', align: 'center'}
             ]
         ]
@@ -231,6 +243,16 @@
         }
         
         
+		 //查看
+        window.view = function (obj) {
+            layer.open({
+                type: 1,
+                title: '查看',
+                shade: 0.1,
+                area: ['500px', '500px'],
+                content: "<img style=\"width:500px\" src=\""+obj+"\">"
+            });
+        }
         //刷新按钮
         window.refresh = function () {
             table.reload('teacher-table');
