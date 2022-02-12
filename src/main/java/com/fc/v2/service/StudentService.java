@@ -2,6 +2,8 @@ package com.fc.v2.service;
 
 import java.util.List;
 import java.util.Arrays;
+
+import cn.hutool.crypto.digest.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
@@ -90,24 +92,22 @@ public class StudentService implements BaseService<Student, StudentExample>{
 	 */
 	@Override
 	public int insertSelective(Student record) {
-				
+		record.setPassword(DigestUtil.sha256Hex(record.getPassword()));
 		record.setId(null);
-		
-				
 		return studentMapper.insertSelective(record);
 	}
 	
 	
 	@Override
 	public int updateByExampleSelective(Student record, StudentExample example) {
-		
+		record.setPassword(DigestUtil.sha256Hex(record.getPassword()));
 		return studentMapper.updateByExampleSelective(record, example);
 	}
 
 	
 	@Override
 	public int updateByExample(Student record, StudentExample example) {
-		
+		record.setPassword(DigestUtil.sha256Hex(record.getPassword()));
 		return studentMapper.updateByExample(record, example);
 	}
 
