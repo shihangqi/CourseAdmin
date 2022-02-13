@@ -1,20 +1,30 @@
 package com.fc.v2.controller.gen;
 
 import com.fc.v2.common.base.BaseController;
+import com.fc.v2.common.conf.oss.OssConfig;
 import com.fc.v2.common.domain.AjaxResult;
 import com.fc.v2.common.domain.ResultTable;
-import com.fc.v2.model.custom.Tablepar;
+import com.fc.v2.common.support.ConvertUtil;
 import com.fc.v2.model.auto.Course;
+import com.fc.v2.model.auto.CourseNum;
+import com.fc.v2.model.auto.CourseNumExample;
+import com.fc.v2.model.custom.CourseVo;
+import com.fc.v2.model.custom.Tablepar;
+import com.fc.v2.service.CourseNumService;
 import com.fc.v2.service.CourseService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import com.fc.v2.common.conf.oss.OssConfig;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Controller
@@ -31,7 +41,9 @@ public class CourseController extends BaseController{
 	
 	@Autowired
 	private CourseService courseService;
-	
+
+	@Autowired
+	private CourseNumService courseNumService;
 	
 	/**
 	 * 页面展示
@@ -51,7 +63,6 @@ public class CourseController extends BaseController{
 	/**
 	 * list集合
 	 * @param tablepar
-	 * @param searchText
 	 * @return
 	 */
 	//@Log(title = "", action = "111")
@@ -60,8 +71,18 @@ public class CourseController extends BaseController{
 	@RequiresPermissions("gen:course:list")
 	@ResponseBody
 	public ResultTable list(Tablepar tablepar,Course course){
-		PageInfo<Course> page=courseService.list(tablepar,course) ; 
-		return pageTable(page.getList(),page.getTotal());
+		PageInfo<Course> page=courseService.list(tablepar,course);
+		List<CourseVo> result = new ArrayList<>();
+		for (Course item : page.getList()) {
+			CourseVo courseVo = new CourseVo();
+			BeanUtils.copyProperties(item,courseVo);
+			CourseNumExample example = new CourseNumExample();
+			example.createCriteria().andCourseIdEqualTo(item.getId());
+			CourseNum courseNum = courseNumService.selectByExample(example).get(0);
+			courseVo.setTotal(courseNum.getTotal());
+			result.add(courseVo);
+		}
+		return pageTable(result,page.getTotal());
 	}
 	
 	/**
@@ -85,9 +106,16 @@ public class CourseController extends BaseController{
 	@PostMapping("/add")
 	@RequiresPermissions("gen:course:add")
 	@ResponseBody
-	public AjaxResult add(Course course){
-		int b=courseService.insertSelective(course);
-		if(b>0){
+	public AjaxResult add(CourseVo courseVo){
+		int b=courseService.insertSelective(courseVo);
+
+		CourseNum courseNum = new CourseNum();
+		courseNum.setTotal(courseVo.getTotal());
+		courseNum.setCourseId(courseVo.getId());
+		courseNum.setAllowance(courseVo.getTotal());
+		int i = courseNumService.insertSelective(courseNum);
+
+		if(b>0 && i>0){
 			return success();
 		}else{
 			return error();
@@ -106,7 +134,11 @@ public class CourseController extends BaseController{
 	@ResponseBody
 	public AjaxResult remove(String ids){
 		int b=courseService.deleteByPrimaryKey(ids);
-		if(b>0){
+
+		CourseNumExample example = new CourseNumExample();
+		example.createCriteria().andCourseIdIn(Arrays.asList(ConvertUtil.toLongArray(",", ids)));
+		int i = courseNumService.deleteByExample(example);
+		if(b>0 && i>0){
 			return success();
 		}else{
 			return error();
@@ -117,7 +149,6 @@ public class CourseController extends BaseController{
 	/**
 	 * 修改跳转
 	 * @param id
-	 * @param mmap
 	 * @return
 	 */
 	@ApiOperation(value = "修改跳转", notes = "修改跳转")
@@ -146,7 +177,6 @@ public class CourseController extends BaseController{
     
     /**
 	 * 修改状态
-	 * @param record
 	 * @return
 	 */
     @PutMapping("/updateVisible")
