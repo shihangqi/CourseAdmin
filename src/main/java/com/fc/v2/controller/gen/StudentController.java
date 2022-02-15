@@ -1,10 +1,13 @@
 package com.fc.v2.controller.gen;
 
+import cn.hutool.poi.excel.ExcelReader;
+import cn.hutool.poi.excel.ExcelUtil;
 import com.fc.v2.common.base.BaseController;
 import com.fc.v2.common.domain.AjaxResult;
 import com.fc.v2.common.domain.ResultTable;
-import com.fc.v2.model.custom.Tablepar;
 import com.fc.v2.model.auto.Student;
+import com.fc.v2.model.custom.StudentFile;
+import com.fc.v2.model.custom.Tablepar;
 import com.fc.v2.service.StudentService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -14,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * Controller
@@ -90,7 +96,47 @@ public class StudentController extends BaseController{
 			return error();
 		}
 	}
-	
+
+	/**
+	 * 批量新增跳转
+	 */
+	@ApiOperation(value = "批量新增跳转", notes = "批量新增跳转")
+	@GetMapping("/batchAdd")
+	public String batchAdd(ModelMap modelMap)
+	{
+		return prefix + "/batchAdd";
+	}
+
+	/**
+	 * 批量新增保存
+	 * @param
+	 * @return
+	 */
+	@ApiOperation(value = "批量新增", notes = "批量新增")
+	@PostMapping("/batchAdd")
+	@RequiresPermissions("gen:student:add")
+	@ResponseBody
+	public AjaxResult batchAdd(@RequestBody MultipartFile object){
+		if (!object.getOriginalFilename().endsWith(".csv") && !object.getOriginalFilename().endsWith(".xls") && !object.getOriginalFilename().endsWith(".xlsx")){
+			return error("上传文件格式错误！");
+		}
+		try {
+			ExcelReader reader = ExcelUtil.getReader(object.getInputStream());
+			List<StudentFile> studentFiles = reader.readAll(StudentFile.class);
+			boolean b = studentService.insertByStudentFile(studentFiles);
+			return success();
+		}catch (Exception exc){
+			return error("文件上传失败！");
+		}
+//		int b=studentService.insertSelective(student);
+//		if(b>0){
+//			return success();
+//		}else{
+//			return error();
+//		}
+	}
+
+
 	/**
 	 * 删除
 	 * @param ids

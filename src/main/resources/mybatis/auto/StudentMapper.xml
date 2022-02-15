@@ -251,8 +251,8 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  
-  <update id="updateByExampleSelective" parameterType="map">
+
+    <update id="updateByExampleSelective" parameterType="map">
     update student
     <set>
           <if test="record.id != null">
@@ -421,6 +421,19 @@
     id = #{id,jdbcType=BIGINT}
                                                                                                     
   </update>
-  
-                                                                
+
+  <select id="selectRegexpUsername" resultMap="BaseResultMap">
+  select *
+  from student
+  <where>
+    <if test="regexp!= null">
+      user_name regexp #{regexp,jdbcType=VARCHAR}
+    </if>
+  </where>
+  order by user_name DESC
+  limit 1
+
+  </select>
+
+
 </mapper>

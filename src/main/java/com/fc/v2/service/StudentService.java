@@ -1,22 +1,22 @@
 package com.fc.v2.service;
 
-import java.util.List;
-import java.util.Arrays;
-
-import cn.hutool.crypto.digest.DigestUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.fc.v2.common.base.BaseService;
 import com.fc.v2.common.support.ConvertUtil;
 import com.fc.v2.mapper.auto.StudentMapper;
 import com.fc.v2.model.auto.Student;
 import com.fc.v2.model.auto.StudentExample;
+import com.fc.v2.model.custom.StudentFile;
 import com.fc.v2.model.custom.Tablepar;
-import com.fc.v2.util.SnowflakeIdWorker;
-import com.fc.v2.util.StringUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import net.sourceforge.pinyin4j.PinyinHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *  StudentService
@@ -138,6 +138,40 @@ public class StudentService implements BaseService<Student, StudentExample>{
 	 */
 	public int updateVisible(Student student) {
 		return studentMapper.updateByPrimaryKeySelective(student);
+	}
+
+
+    public boolean insertByStudentFile(List<StudentFile> studentFiles) {
+		for (StudentFile studentFile : studentFiles) {
+			String pinYin = getPinYin(studentFile.getName());
+			Student student = new Student();
+
+			String userName = pinYin;
+			List<Student> students = studentMapper.selectRegexpUsername(pinYin+"[0-9]");
+			if (!students.isEmpty()){
+				int num = Integer.parseInt(students.get(0).getUserName().substring(pinYin.length()-1));
+				userName = pinYin + num;
+			}
+			student.setName(studentFile.getName());
+			student.setUserName(userName);
+			student.setGrade(studentFile.getGrade());
+			student.setClazz(studentFile.getClazz());
+			student.setPassword(DigestUtil.sha256Hex("123456"));
+			int insert = studentMapper.insert(student);
+			if (insert==0){
+				return false;
+			}
+		}
+		return true;
+    }
+
+    private String getPinYin(String s){
+		StringBuilder stringBuilder = new StringBuilder();
+		for (char c : s.toCharArray()) {
+			String[] pinyinArray = PinyinHelper.toHanyuPinyinStringArray(c);
+			stringBuilder.append(Arrays.toString(pinyinArray));
+		}
+		return stringBuilder.toString();
 	}
 
 

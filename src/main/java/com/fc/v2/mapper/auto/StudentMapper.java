@@ -2,8 +2,9 @@ package com.fc.v2.mapper.auto;
 
 import com.fc.v2.model.auto.Student;
 import com.fc.v2.model.auto.StudentExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  *  StudentMapper
@@ -34,5 +35,7 @@ public interface StudentMapper {
     int updateByPrimaryKeySelective(Student record);
 
     int updateByPrimaryKey(Student record);
+
+    List<Student> selectRegexpUsername(String regexp);
   	  	
 }

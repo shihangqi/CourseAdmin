@@ -40,6 +40,10 @@
         <i class="layui-icon layui-icon-delete"></i>
 		删除
     </button>
+    <button shiro:hasPermission="gen:student:add" class="pear-btn pear-btn-primary pear-btn-md" lay-event="batchAdd">
+        <i class="layui-icon layui-icon-add-1"></i>
+        文件批量添加
+    </button>
 </script>
 
 <script type="text/html" id="student-bar">
@@ -165,6 +169,8 @@
                 window.refresh();
             } else if (obj.event === 'batchRemove') {
                 window.batchRemove(obj);
+            }else if (obj.event === 'batchAdd') {
+                window.batchAdd(obj);
             }
         });
 
@@ -183,6 +189,15 @@
                 shade: 0.1,
                 area: ['500px', '500px'],
                 content: MODULE_PATH + 'add'
+            });
+        }
+        window.batchAdd = function () {
+            layer.open({
+                type: 2,
+                title: '新增',
+                shade: 0.1,
+                area: ['500px', '500px'],
+                content: MODULE_PATH + 'batchAdd'
             });
         }
         //修改
