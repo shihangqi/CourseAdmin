@@ -36,6 +36,6 @@ public interface StudentMapper {
 
     int updateByPrimaryKey(Student record);
 
-    List<Student> selectRegexpUsername(String regexp);
+    List<Student> selectRegexpUsername(@Param("regexp") String regexp);
   	  	
 }
