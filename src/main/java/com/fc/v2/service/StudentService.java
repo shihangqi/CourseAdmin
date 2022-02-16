@@ -15,6 +15,7 @@ import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,6 +89,11 @@ public class StudentService implements BaseService<Student, StudentExample> {
 
     @Override
     public int updateByPrimaryKeySelective(Student record) {
+        if (StringUtils.isBlank(record.getPassword())){
+            record.setPassword(null);
+        }else {
+            record.setPassword(DigestUtil.sha256Hex(record.getPassword()));
+        }
         return studentMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -105,14 +111,22 @@ public class StudentService implements BaseService<Student, StudentExample> {
 
     @Override
     public int updateByExampleSelective(Student record, StudentExample example) {
-        record.setPassword(DigestUtil.sha256Hex(record.getPassword()));
+        if (StringUtils.isBlank(record.getPassword())){
+            record.setPassword(null);
+        }else {
+            record.setPassword(DigestUtil.sha256Hex(record.getPassword()));
+        }
         return studentMapper.updateByExampleSelective(record, example);
     }
 
 
     @Override
     public int updateByExample(Student record, StudentExample example) {
-        record.setPassword(DigestUtil.sha256Hex(record.getPassword()));
+        if (StringUtils.isBlank(record.getPassword())){
+            record.setPassword(null);
+        }else {
+            record.setPassword(DigestUtil.sha256Hex(record.getPassword()));
+        }
         return studentMapper.updateByExample(record, example);
     }
 
