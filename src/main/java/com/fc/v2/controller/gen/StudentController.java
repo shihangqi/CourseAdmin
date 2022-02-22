@@ -128,7 +128,10 @@ public class StudentController extends BaseController{
 			ExcelReader reader = ExcelUtil.getReader(object.getInputStream());
 			List<StudentFile> studentFiles = reader.readAll(StudentFile.class);
 			boolean b = studentService.insertByStudentFile(studentFiles);
-			return success();
+			if (b){
+				return success();
+			}
+			return error("文件上传失败！");
 		}catch (Exception exc){
 			LOGGER.error("batchAdd error",exc);
 			return error("文件上传失败！");

@@ -1,5 +1,7 @@
 package com.fc.v2.controller.gen;
 
+import cn.hutool.poi.excel.ExcelReader;
+import cn.hutool.poi.excel.ExcelUtil;
 import com.fc.v2.common.base.BaseController;
 import com.fc.v2.common.conf.oss.OssConfig;
 import com.fc.v2.common.domain.AjaxResult;
@@ -8,6 +10,7 @@ import com.fc.v2.common.support.ConvertUtil;
 import com.fc.v2.model.auto.Course;
 import com.fc.v2.model.auto.CourseNum;
 import com.fc.v2.model.auto.CourseNumExample;
+import com.fc.v2.model.custom.CourseFile;
 import com.fc.v2.model.custom.CourseVo;
 import com.fc.v2.model.custom.Tablepar;
 import com.fc.v2.service.CourseNumService;
@@ -16,11 +19,14 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +50,9 @@ public class CourseController extends BaseController{
 
 	@Autowired
 	private CourseNumService courseNumService;
-	
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(CourseController.class);
+
 	/**
 	 * 页面展示
 	 * @param model
@@ -186,7 +194,44 @@ public class CourseController extends BaseController{
 		return toAjax(i);
 	}
 
-    
+	/**
+	 * 批量新增跳转
+	 */
+	@ApiOperation(value = "批量新增跳转", notes = "批量新增跳转")
+	@GetMapping("/batchAdd")
+	public String batchAdd(ModelMap modelMap)
+	{
+		return prefix + "/batchAdd";
+	}
+
+
+	/**
+	 * 批量新增保存
+	 * @param
+	 * @return
+	 */
+	@ApiOperation(value = "批量新增", notes = "批量新增")
+	@PostMapping("/batchAdd")
+	@RequiresPermissions("gen:teacher:add")
+	@ResponseBody
+	public AjaxResult batchAdd(@RequestBody MultipartFile object){
+		if (!object.getOriginalFilename().endsWith(".csv") && !object.getOriginalFilename().endsWith(".xls") && !object.getOriginalFilename().endsWith(".xlsx")){
+			return error("上传文件格式错误！");
+		}
+		try {
+			ExcelReader reader = ExcelUtil.getReader(object.getInputStream());
+			List<CourseFile> courseFiles = reader.readAll(CourseFile.class);
+			boolean b = courseService.insertByCourseFiles(courseFiles);
+//			if (b){
+//				return success();
+//			}
+			return success();
+//			return error("文件上传失败！");
+		}catch (Exception exc){
+			LOGGER.error("batchAdd error",exc);
+			return error("文件上传失败！");
+		}
+	}
     
 
 	

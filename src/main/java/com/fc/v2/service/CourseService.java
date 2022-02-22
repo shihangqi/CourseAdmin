@@ -2,6 +2,8 @@ package com.fc.v2.service;
 
 import java.util.List;
 import java.util.Arrays;
+
+import com.fc.v2.model.custom.CourseFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
@@ -141,4 +143,7 @@ public class CourseService implements BaseService<Course, CourseExample>{
 	}
 
 
+    public boolean insertByCourseFiles(List<CourseFile> courseFiles) {
+
+    }
 }

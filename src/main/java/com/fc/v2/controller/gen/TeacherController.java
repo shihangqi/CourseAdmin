@@ -1,20 +1,22 @@
 package com.fc.v2.controller.gen;
 
 import com.fc.v2.common.base.BaseController;
+import com.fc.v2.common.conf.oss.OssConfig;
 import com.fc.v2.common.domain.AjaxResult;
 import com.fc.v2.common.domain.ResultTable;
-import com.fc.v2.model.custom.Tablepar;
 import com.fc.v2.model.auto.Teacher;
+import com.fc.v2.model.custom.Tablepar;
 import com.fc.v2.service.TeacherService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import com.fc.v2.common.conf.oss.OssConfig;
 
 /**
  * Controller
@@ -31,8 +33,10 @@ public class TeacherController extends BaseController{
 	
 	@Autowired
 	private TeacherService teacherService;
-	
-	
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(TeacherController.class);
+
+
 	/**
 	 * 页面展示
 	 * @param model
