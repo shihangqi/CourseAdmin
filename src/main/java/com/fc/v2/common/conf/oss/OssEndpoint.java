@@ -12,10 +12,10 @@ import com.fc.v2.service.SysFileService;
 import com.fc.v2.shiro.util.ShiroUtils;
 import com.fc.v2.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -95,7 +95,7 @@ public class OssEndpoint {
 		String fileName = object.getOriginalFilename();
 		String suffixName = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
 		String uuid=SnowflakeIdWorker.getUUID();
-		String fileSuffixName=uuid+suffixName;
+		String fileSuffixName=template.getOssProperties().getFilePath()+uuid+suffixName;
 		PutObjectResult putObjectResult=template.putObject(bucketName, fileSuffixName, object.getInputStream(), object.getSize(), object.getContentType());
 		if(putObjectResult!=null){
 			TsysUser tsysUser=ShiroUtils.getUser();
@@ -107,7 +107,7 @@ public class OssEndpoint {
 			}
 			int i=sysFileService.insertSelective(sysFile);
 			if(i>0){
-				return AjaxResult.successData(200,template.getOssProperties().getCndUrl()+bucketName);
+				return AjaxResult.successData(200,template.getOssProperties().getCndUrl()+fileSuffixName);
 			}
 		}
 		return AjaxResult.error("上传失败");
@@ -196,7 +196,7 @@ public class OssEndpoint {
 			String fileName = object.getOriginalFilename();
 			String suffixName = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
 			String uuid=SnowflakeIdWorker.getUUID();
-			String fileSuffixName=uuid+suffixName;
+			String fileSuffixName=template.getOssProperties().getFilePath()+uuid+suffixName;
 			PutObjectResult putObjectResult=template.putObject(bucketName, fileSuffixName, object.getInputStream(), object.getSize(), object.getContentType());
 			if(putObjectResult!=null){
 				oldSysFile.setFileSize(object.getSize());
@@ -208,7 +208,7 @@ public class OssEndpoint {
 				oldSysFile.setFileSuffix(object.getContentType());
 				int i=sysFileService.updateByPrimaryKeySelective(oldSysFile);
 				if(i>0){
-					return AjaxResult.successData(200,template.getOssProperties().getCndUrl()+bucketName);
+					return AjaxResult.successData(200,template.getOssProperties().getCndUrl()+fileSuffixName);
 				}
 			}
 		}
@@ -229,7 +229,7 @@ public class OssEndpoint {
 		String fileName = file.getOriginalFilename();
 		String suffixName = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
 		String uuid=SnowflakeIdWorker.getUUID();
-		String fileSuffixName=uuid+suffixName;
+		String fileSuffixName=template.getOssProperties().getFilePath()+uuid+suffixName;
 		PutObjectResult putObjectResult=template.putObject(bucketName, fileSuffixName, file.getInputStream(), file.getSize(), file.getContentType());
 		if(putObjectResult!=null){
 			TsysUser tsysUser=ShiroUtils.getUser();
@@ -244,7 +244,7 @@ public class OssEndpoint {
 				retmap.put("code",0);
 				retmap.put("msg","上传成功!");
 				String bucketURL=template.getOssProperties().getEndpoint()+"/"+template.getOssProperties().getBucketName()+"/";
-				retdatamap.put("src",template.getOssProperties().getCndUrl()+bucketName);
+				retdatamap.put("src",template.getOssProperties().getCndUrl()+fileSuffixName);
 				retmap.put("data",retdatamap);
 				return retmap;
 			}

@@ -109,3 +109,4 @@ oss:
   secret-key: HiSgk5FWWOe0e5atMB3QqOdJyfY7UDAc7iql6DZm # 上文创建的SK
   bucket-name: shq-common  # 上文创建的桶名称
   cnd-url: http://cdn.rdfzyzxcxx.top/
+  file-path: course/

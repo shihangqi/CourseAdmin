@@ -59,6 +59,11 @@ public class OssProperties {
 	private String cndUrl;
 
 	/**
+	 * 存储路径
+	 */
+	private String filePath;
+
+	/**
 	 * 最大线程数，默认： 100
 	 */
 	private Integer maxConnections = 100;
@@ -142,5 +147,13 @@ public class OssProperties {
 
 	public void setCndUrl(String cndUrl) {
 		this.cndUrl = cndUrl;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 }

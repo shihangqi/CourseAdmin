@@ -222,11 +222,10 @@ public class CourseController extends BaseController{
 			ExcelReader reader = ExcelUtil.getReader(object.getInputStream());
 			List<CourseFile> courseFiles = reader.readAll(CourseFile.class);
 			boolean b = courseService.insertByCourseFiles(courseFiles);
-//			if (b){
-//				return success();
-//			}
+			if (b){
+				return success();
+			}
 			return success();
-//			return error("文件上传失败！");
 		}catch (Exception exc){
 			LOGGER.error("batchAdd error",exc);
 			return error("文件上传失败！");
